@@ -725,7 +725,7 @@ class AppSignInPage(tk.Frame):
                         #just so admin doesn't have to keep changing passwords - change the name and email to current admin
                         #add admin encrytped username and email to username_emails.txt and passwords using key
                         #format Username_Emails.txt = user email , Passwords.txt = email password
-                        if(password == 'password' and username != 'rico' and username != 'rico@sonexlabs.us'):
+                        if(password == 'password')# and username != 'AdminUsernameHere' and username != 'AdminEmailHere'):
                             flag = False
                             _master.switch_frame(ChangeDefaultPassword)
                             uf.close()
