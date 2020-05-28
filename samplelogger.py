@@ -1219,10 +1219,10 @@ class EditRecentPage(tk.Frame):
 
 class Test():
     def testAddEntry(self):
-        #e = ['5/24/20', 'Iso-D-NHom' , 'LBF-052420-001:Iso', 'Rico P.', 'In-House', 'Potency', 'Wendy']
-        #d = ['5/15/20', 'Wax-D-NHom' , 'LBF-051520-001:Wax', 'Shawn F.', 'In-House', 'Potency', 'Wendy']
-        #f = ['5/25/20', 'Oleo-D-Wx-NHom' , 'LBF-052520-001:Oleo', 'Robbie K.', 'In-House', 'Potency', 'Derek']
-        #g = ['5/25/20', 'Oleo-D-DeWx-NHom' , 'LBF-052520-002:Oleo', 'Rico P.', 'In-House', 'Potency', 'Derek']
+        #e = ['5/24/20', 'Iso-D-NHom' , 'LBF-052420-001:Iso', 'Rico', 'In-House', 'Potency', 'Wendy']
+        #d = ['5/15/20', 'Wax-D-NHom' , 'LBF-051520-001:Wax', 'Shawn', 'In-House', 'Potency', 'Wendy']
+        #f = ['5/25/20', 'Oleo-D-Wx-NHom' , 'LBF-052520-001:Oleo', 'Robbie', 'In-House', 'Potency', 'Derek']
+        #g = ['5/25/20', 'Oleo-D-DeWx-NHom' , 'LBF-052520-002:Oleo', 'Rico', 'In-House', 'Potency', 'Derek']
         
         e = '5/24/20' + ' ' + 'Iso-D-NHom' + ' ' + 'LBF-052420-001:Iso' + ' ' + 'Rico' + ' ' + 'In-House' + ' ' + 'Potency' + ' Not-Approved'
         d = '5/15/20' + ' ' + 'Wax-D-NHom' + ' ' + 'LBF-051520-001:Wax' + ' ' + 'Shawn' + ' ' + 'In-House' + ' ' + 'Potency' + ' Not-Approved'
