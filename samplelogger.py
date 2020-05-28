@@ -1250,20 +1250,9 @@ class Test():
     def testEditEntries(self):
         editByRowOption(1)
 
-    def testApproveStatus(self):
-        pass
-
 ####################################
 
 if __name__ == '__main__':
-    ############    FINISHING TOUCHES  -- After downloading on chromebook#######################
-    #make samplelogger.py only excuteable to others and rwx for me
-    #make username_Emails.txt, and passwords.txt only readable
-    #notapproved.txt, read and write
-
-    '''user email
-    email password'''
-
     app = Application()
     app.wm_title('The Sample Logger')
     app.mainloop()
