@@ -12,7 +12,7 @@ from cryptography.fernet import Fernet
 from time import ctime
 #################make new colum and colum names and account for it in everything
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/Rico-Porter/workspace/Generators/Sample Log Generator/credentials.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/Rico-Porter/workspace/Generators/Sample-Log-Generator/credentials.json', scope)
 client = gspread.authorize(creds)
 spreadsheet = client.open('Sample Log')
 
@@ -108,10 +108,7 @@ def viewLastEntries(amt):
         #print("Range:", rangeStart, '-', rangeEnd)
     elif(amt == 0):
         #if want to view 0 entires
-        rangeStart = 'A' + str(lastRow)
-
-        rang = rangeStart + ':' + rangeEnd
-        values = sheet.get(rang)
+        values = []
         #print("Range:", rangeStart, '-', rangeEnd)
     else:
         #if viewing more than posib
@@ -289,7 +286,8 @@ class ChooseRemovePage(tk.Frame):
         tk.Button(self, text="Remove Entry from Not Approved List", command=lambda: _master.switch_frame(RemoveEntriesFilePage)).pack(side="top", fill="x", padx=20, pady=5)
         tk.Button(self, text="Remove Entry from Approved List", command=lambda: _master.switch_frame(RemoveEntriesPage)).pack(side="top", fill="x", padx=20, pady=5)
 
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
 class RemoveEntriesFilePage(tk.Frame):
     def __init__(self, _master):
@@ -318,7 +316,8 @@ class RemoveEntriesFilePage(tk.Frame):
         self.lis.insert(0, *strVals)
         
         tk.Button(self, text="Submit", command=lambda: self.callRemoveRow(_master, self.lis.get(self.lis.curselection()))).pack(side="top", fill="x", padx=20, pady=5)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(ChooseRemovePage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(ChooseRemovePage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def callRemoveRow(self, _master, row):
         row = int((row.split())[0])
@@ -343,7 +342,8 @@ class RemoveEntriesPage(tk.Frame):
         self.lEntry.pack(side="top", fill="x", padx=20, pady=5)
 
         self.b = tk.Button(self, text="Back", command=lambda: _master.switch_frame(ChooseRemovePage))
-        self.b.pack(side="top", fill="x", padx=20, pady=5)
+        self.b.pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def removeLEntry(self):
         lastRow = getLastRow()
@@ -414,7 +414,8 @@ class AppSPage(tk.Frame):
         self.lEntry.pack(side="top", fill="x", padx=20, pady=5)
 
         self.b = tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage))
-        self.b.pack(side="top", fill="x", padx=20, pady=5)
+        self.b.pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
 class UnapprovalPage(tk.Frame):
     def __init__(self, _master):
@@ -448,7 +449,8 @@ class UnapprovalPage(tk.Frame):
 
         self.submitB = tk.Button(self, text="Submit", command=lambda: self.submitData(_master, self.lis.get(self.lis.curselection())))
         self.submitB.pack(side="top", fill="x", padx=20, pady=0)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSPage)).pack(side="top", fill="x", padx=20, pady=(5, 20))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady= 20)
 
     def submitData(self, _master, row):
         row = int((row.split())[0])-1
@@ -492,11 +494,12 @@ class ApprovalPage(tk.Frame):
         try:
             self.lis.insert(0, *strVals)
         except:
-            tk.Label(self, text="No Samples to Unapprove", font=('Helvetica', 11)).pack(side="bottom")
+            tk.Label(self, text="No Samples to Approve", font=('Helvetica', 11)).pack(side="bottom")
 
         self.submitB = tk.Button(self, text="Submit", command=lambda: self.editForm(_master, self.lis.get(self.lis.curselection())))
         self.submitB.pack(side="top", fill="x", padx=20, pady=0)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def editForm(self, _master, row):
         self.values = getAllValuesFile()
@@ -575,7 +578,8 @@ class AppLogSamplePage(tk.Frame):
         self.app.pack(side="top", fill="x", padx=100, pady=5)
 
         tk.Button(self, text="Submit", command=lambda: self.submitValues()).pack(side="top", fill="x", padx=20, pady=0)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def submitValues(self):
         flag = False
@@ -629,7 +633,8 @@ class ChangeDefaultPassword(tk.Frame):
         self.cpasswordEntry.pack(side="top", fill="x", padx=20, pady=5)
 
         tk.Button(self, text="Confirm Password Change", command=lambda: self.validate(_master, self.usernameEntry.get(), self.npasswordEntry.get(), self.cpasswordEntry.get())).pack(side="top", fill="x", padx=20, pady=5)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSignInPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def validate(self, _master, username, npassword, cpassword):
         flag = False
@@ -723,7 +728,7 @@ class AppSignInPage(tk.Frame):
                         #just so admin doesn't have to keep changing passwords - change the name and email to current admin
                         #add admin encrytped username and email to username_emails.txt and passwords using key
                         #format Username_Emails.txt = user email , Passwords.txt = email password
-                        if(password == 'password' and username != 'rico' and username != 'rico@sonexlabs.us'):
+                        if(pline[1] == 'password' and username != 'rico' and username != 'rico@sonexlabs.us'):
                             flag = False
                             _master.switch_frame(ChangeDefaultPassword)
                             uf.close()
@@ -744,12 +749,15 @@ class AppOptionPage(tk.Frame):
         tk.Frame.__init__(self, _master)
         tk.Label(self, text="Options Page", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=(10,20))
 
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
         tk.Button(self, text="Log A Sample", command=lambda: _master.switch_frame(AppLogSamplePage)).pack(side='top', fill='x', padx=20, pady=(5,0))
         tk.Button(self, text="View Samples", command=lambda: _master.switch_frame(AppViewEntriesPage)).pack(side="top", fill="x", padx=20, pady=(5,0))
         tk.Button(self, text="Edit a Sample Entry", command=lambda: _master.switch_frame(AppEditEntriesPage)).pack(side='top', fill='x', padx=20, pady=(30,0))
         tk.Button(self, text="Remove Sample Entries", command=lambda: _master.switch_frame(ChooseRemovePage)).pack(side="top", fill="x", padx=20, pady=(5, 0))
         tk.Button(self, text="Approval Page", command=lambda: _master.switch_frame(AppSPage)).pack(side='top', fill='x', padx=20, pady=5)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSignInPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Sign Up for Approval Account", command=lambda: _master.switch_frame(AppSignUpPage)).pack(side='top', fill='x', padx=20, pady=5)
+        tk.Button(self, text="Delete a Approval Account", command=lambda: _master.switch_frame(AppDeleteApp)).pack(side='top', fill='x', padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppSignInPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
 
 class AppViewEntriesPage(tk.Frame):
     def __init__(self, _master):
@@ -769,7 +777,7 @@ class AppViewEntriesPage(tk.Frame):
         self.amt = tk.Entry(self)
         self.amt.pack(side="top", fill="x", padx=100, pady=5)
 
-        self.appType = tk.StringVar(_master, "Not-Approved")
+        self.appType = tk.StringVar(_master, "Approved")
         self.appLab = tk.Label(self, text="View Approved or Not Approved Samples?", font=('Helvetica', 11))
         self.appLab.pack(side="top", fill="x", padx=20, pady=0)
        
@@ -780,7 +788,8 @@ class AppViewEntriesPage(tk.Frame):
 
         self.submit = tk.Button(self, text="Submit", command=lambda: self.submitValues())
         self.submit.pack(side="top", fill="x", padx=20, pady=0)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def packList(self):
         #unpacking
@@ -813,7 +822,7 @@ class AppViewEntriesPage(tk.Frame):
 
         if((getLastRow() > 1 and self.appType.get() == "Approved") or (self.appType.get() == "Not-Approved" and len(self.values) > 0)):
             for val in self.values:
-                s = val[7] + "       " + val[0] + "     " + val[1] + "               " + val[2] + "                     " + val[3] + "                         " + val[4] + "                 " + val[5] + "             " + val[6]
+                s = val[7] + "       " + val[0] + "     " + val[1] + "               " + val[2] + "                          " + val[3] + "                       " + val[4] + "                       " + val[5] + "             " + val[6]
                 strVals = np.append(strVals, s)
             
         lis.insert(0, *strVals)
@@ -850,7 +859,8 @@ class AppEditEntriesPage(tk.Frame):
 
         self.subm = tk.Button(self, text="Submit", command=lambda: self.packing_list(_master, self.appType.get()))
         self.subm.pack(side="top", fill="x", padx=20, pady=(5, 5))
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def packing_list(self, _master, appType):
         self.values = getAllValuesFile() if self.appType.get() == "Not Approved" else viewLastEntries(getLastRow()-1)
@@ -875,13 +885,13 @@ class AppEditEntriesPage(tk.Frame):
                 s = str(i) + "       " + val[0] + "     " + val[1] + "               " + val[2] + "                     " + val[3] + "                         " + val[4] + "                 " + val[5] + "        " + val[6]
                 strVals = np.append(strVals, s)
                 i += 1
-        else:
+        elif(self.appType.get() == "Approved" and getLastRow() > 1):
             for val in self.values:
-                s = val[7] + "       " + val[0] + "     " + val[1] + "               " + val[2] + "                     " + val[3] + "                         " + val[4] + "                 " + val[5] + "        " + val[6]
+                s = val[7] + "       " + val[0] + "     " + val[1] + "               " + val[2] + "                                " + val[3] + "                       " + val[4] + "                      " + val[5] + "           " + val[6]
                 strVals = np.append(strVals, s)
 
         self.scrollbar.config(command = strVals)
-        self.lis.config(width=100)
+        self.lis.config(width=150)
         self.lis.pack(side="left", fill="x", padx=(5, 20), pady=(0, 15), expand=True)
 
         self.lis.insert(0, *strVals)
@@ -961,6 +971,218 @@ class AppEditEntriesPage(tk.Frame):
         tk.Label(self, text="Saved Edit", font=('Helvetica', 11)).pack(side="bottom")
         _master.switch_frame(AppEditEntriesPage)
 
+class AppSignUpPage(tk.Frame):
+    def __init__(self, _master):
+        tk.Frame.__init__(self, _master)
+        tk.Label(self, text="Sign Up For An Approval Account", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=(20, 10))
+
+        #username label and username entry box
+        self.usernameLabel = tk.Label(self,text="Enter Username")
+        self.usernameLabel.pack(side="top", fill="x", padx=20, pady=5)
+        self.usernameEntry = tk.Entry(self)
+        self.usernameEntry.pack(side="top", fill="x", padx=20, pady=5)
+
+        #email label and email entry box
+        self.emailLabel = tk.Label(self,text="Enter Email")
+        self.emailLabel.pack(side="top", fill="x", padx=20, pady=5)
+        self.emailEntry = tk.Entry(self)
+        self.emailEntry.pack(side="top", fill="x", padx=20, pady=5)
+
+        #password label and password entry box
+        self.npasswordLabel = tk.Label(self,text="New Password (8 or more characters)")
+        self.npasswordLabel.pack(side="top", fill="x", padx=20, pady=5)  
+        self.npasswordEntry = tk.Entry(self, show='*')
+        self.npasswordEntry.pack(side="top", fill="x", padx=20, pady=5)  
+
+        #cpassword label and cpassword entry box
+        self.cpasswordLabel = tk.Label(self,text="Confirm New Password")
+        self.cpasswordLabel.pack(side="top", fill="x", padx=20, pady=5)  
+        self.cpasswordEntry = tk.Entry(self, show='*')
+        self.cpasswordEntry.pack(side="top", fill="x", padx=20, pady=5)
+
+        tk.Button(self, text="Confirm", command=lambda: self.validate(_master, self.usernameEntry.get(), self.emailEntry.get(), self.npasswordEntry.get(), self.cpasswordEntry.get())).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10)) 
+
+    def validate(self, _master, username, email, npassword, cpassword):
+        if(npassword == cpassword and len(npassword) >= 8):
+            self.addSignUpInfo(_master, username, email, npassword)
+
+    def addSignUpInfo(self, _master, username, email, password):
+        cipher_suite = Fernet(key)
+        pf = open("Passwords.txt", "a")
+        uf = open("Username_Emails.txt", "a")
+
+        entok = cipher_suite.encrypt(bytes(username, 'utf-8'))
+        uf.write(str(entok.decode('utf-8')) + " ")
+        entok = cipher_suite.encrypt(bytes(email, 'utf-8'))
+        uf.write(str(entok.decode('utf-8')) + '\n')
+
+        entok = cipher_suite.encrypt(bytes(email, 'utf-8'))
+        pf.write(str(entok.decode('utf-8')) + " ")
+        entok = cipher_suite.encrypt(bytes(password, 'utf-8'))
+        pf.write(str(entok.decode('utf-8')) + '\n')        
+               
+        pf.close()
+        uf.close()
+        _master.switch_frame(AppOptionPage)  
+   
+class AppDeleteApp(tk.Frame):    
+    def __init__(self, _master):
+        tk.Frame.__init__(self, _master)
+        tk.Label(self, text="Delete An Approval Account", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=(20, 10))
+        
+        self.usernameLabel = tk.Label(self, text="User Name")
+        self.usernameLabel.pack(side="top", fill="x", padx=20, pady=(20,5))
+        self.usernameEntry = tk.Entry(self)
+        self.usernameEntry.pack(side="top", fill="x", padx=20, pady=5)  
+
+        #password label and password entry box
+        self.passwordLabel = tk.Label(self,text="Password")
+        self.passwordLabel.pack(side="top", fill="x", padx=20, pady=5)
+        self.passwordEntry = tk.Entry(self, show='*')
+        self.passwordEntry.pack(side="top", fill="x", padx=20, pady=5)
+
+        self.confBut = tk.Button(self, text="Confirm", command=lambda: self.validate(_master, self.usernameEntry.get(), self.passwordEntry.get()))
+        self.confBut.pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(AppOptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
+
+    def validate(self, _master, username, password):
+        cipher_suite = Fernet(key)
+        flag = True
+        uf = open("Username_Emails.txt", "r")
+        pf = open("Passwords.txt", "r")
+        
+        for line in uf.readlines():
+            line = line.split()
+            line = [cipher_suite.decrypt(bytes(line[0], 'utf-8')).decode("utf-8"), cipher_suite.decrypt(bytes(line[1], 'utf-8')).decode("utf-8")]
+            
+            if(username == line[0] or username == line[1]):
+                for pline in pf.readlines():
+                    pline = pline.split()
+                    pline = [cipher_suite.decrypt(bytes(pline[0], 'utf-8')).decode("utf-8"), cipher_suite.decrypt(bytes(pline[1], 'utf-8')).decode("utf-8")]
+                    if(pline[0] == line[1]):
+                        #just so admin doesn't have to keep changing passwords - change the name and email to current admin
+                        #add admin encrytped username and email to username_emails.txt and passwords using key
+                        #format Username_Emails.txt = user email , Passwords.txt = email password
+                        if(password == pline[1]):
+                            flag = False
+                            uf.close()
+                            pf.close()   
+
+        if(flag):
+            tk.Label(self,text="Username or Password is Incorrect").pack(side="bottom", fill="x", padx=20, pady=5)
+            self.passwordEntry.delete(0, len(self.passwordEntry.get()))
+            self.usernameEntry.delete(0, len(self.usernameEntry.get()))
+        else:
+            if(username != 'rico' and username != 'derek' and username != 'shawn' and username != 'rico@sonexlabs.us' and username != 'derek@sonexlabs.us' and username != 'shawn@sonexlabs.us'):
+                self.perm = tk.Label(self,text="You don't have permissions for this!")
+                self.perm.pack(side="bottom", fill="x", padx=20, pady=5)
+            else:
+                self.getValues(_master)
+                self.perm.pack_forget()
+
+    def packList(self, _master):
+        #unpacking
+        self.usernameLabel.pack_forget()
+        self.usernameEntry.pack_forget()
+        self.passwordLabel.pack_forget()
+        self.passwordEntry.pack_forget()
+        self.confBut.pack_forget()
+
+        #packing
+        tk.Label(self, text="List of Approvers", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=(15, 5))
+
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.pack(side="left", fill="y")
+
+        lis = tk.Listbox(self, yscrollcommand=scrollbar.set)
+        #print("values:", self.values)
+        
+        strVals = np.array([])
+        for val in self.values:
+            s = val
+            strVals = np.append(strVals, s)
+            
+        lis.insert(0, *strVals)       
+        #print("strVals:", strVals)
+
+        scrollbar.config(command = strVals)
+        lis.pack(side="left", fill="x", padx=(5, 20), pady=(0, 15), expand=True)
+        self.submitb = tk.Button(self, text="Submit", command=lambda: self.selectAcct(_master, lis.get(lis.curselection())))
+        self.submitb.pack(side="right", fill="x", padx=20, pady=(5, 5))
+
+    def getValues(self, _master):
+        cipher_suite = Fernet(key)
+        uf = open("Username_Emails.txt", "r")
+        approverslist = np.array([])
+
+        for line in uf.readlines():
+            line = line.split()
+            line = [cipher_suite.decrypt(bytes(line[0], 'utf-8')).decode("utf-8"), cipher_suite.decrypt(bytes(line[1], 'utf-8')).decode("utf-8")]
+            line = line[0] + '   ' + line[1]
+
+            approverslist  = np.append(approverslist, line)
+        uf.close()
+
+        self.values = approverslist
+        self.packList(_master)
+
+    def selectAcct(self, _master, selection):
+        #print("len of values:", len(self.values))
+        #print("selected:", selection.split())
+        selection = selection.split()
+        cipher_suite = Fernet(key)
+
+        #saves all usernames except for one selected
+        uf = open("Username_Emails.txt", "r")
+        newUsernames = np.array([])
+        for line in uf.readlines():
+            line = line.split()
+            line = [cipher_suite.decrypt(bytes(line[0], 'utf-8')).decode("utf-8"), cipher_suite.decrypt(bytes(line[1], 'utf-8')).decode("utf-8")]
+
+            #print("line: ", line)
+            if(selection[0] != line[0] and selection[1] != line[1]):
+                line = line[0] + ' ' + line[1]
+                newUsernames = np.append(newUsernames, line)
+        uf.close()
+
+        #saves all passwords except for one selected
+        pf = open("Passwords.txt", "r")
+        newPasswords = np.array([])
+        for line in pf.readlines():
+            line = line.split()
+            line = [cipher_suite.decrypt(bytes(line[0], 'utf-8')).decode("utf-8"), cipher_suite.decrypt(bytes(line[1], 'utf-8')).decode("utf-8")]
+            
+            #print("line: ", line)
+            if(selection[1] != line[0]):
+                line = line[0] + ' ' + line[1]
+                newPasswords = np.append(newPasswords, line)
+        pf.close()
+        
+        #print("Usernames:", newUsernames)
+        #print("Passwords:", newPasswords)
+
+        uf = open("Username_Emails.txt", "w")
+        for users in newUsernames:
+            users = users.split()
+            utok = cipher_suite.encrypt(bytes(users[0], 'utf-8'))
+            etok = cipher_suite.encrypt(bytes(users[1], 'utf-8'))
+            uf.write(str(utok.decode('utf-8')) + " ")
+            uf.write(str(etok.decode('utf-8')) + "\n")
+        uf.close()
+
+        pf = open("Passwords.txt", "w")
+        for passw in newPasswords:
+            passw = passw.split()
+            etok = cipher_suite.encrypt(bytes(passw[0], 'utf-8'))
+            ptok = cipher_suite.encrypt(bytes(passw[1], 'utf-8'))
+            pf.write(str(etok.decode('utf-8')) + " ")
+            pf.write(str(ptok.decode('utf-8')) + "\n")
+        pf.close()
+
+        _master.switch_frame(AppOptionPage)
 
 ### for SAMPLERS
 class OptionPage(tk.Frame):
@@ -1002,7 +1224,8 @@ class ViewEntriesPage(tk.Frame):
 
         self.submit = tk.Button(self, text="Submit", command=lambda: self.submitValues())
         self.submit.pack(side="top", fill="x", padx=20, pady=0)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(OptionPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(OptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
 
     def packList(self):
         #unpacking
@@ -1104,7 +1327,8 @@ class LogSamplePage(tk.Frame):
         self.com.pack(side="top", fill="x", padx=100, pady=5)
 
         tk.Button(self, text="Submit", command=lambda: self.submitValues()).pack(side="top", fill="x", padx=20, pady=0)
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(OptionPage)).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(OptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady= (5, 10))
 
     def submitValues(self):
         flag = False
@@ -1189,7 +1413,8 @@ class EditRecentPage(tk.Frame):
             self.com.insert(0, values[5])
 
             tk.Button(self, text="Submit", command=lambda: self.formData()).pack(side="top", fill="x", padx=20, pady=(5, 5))
-        tk.Button(self, text="Back", command=lambda: _master.switch_frame(OptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 10))
+        tk.Button(self, text="Back", command=lambda: _master.switch_frame(OptionPage)).pack(side="top", fill="x", padx=20, pady=(5, 15))
+        tk.Button(self, text="Home", command=lambda: _master.switch_frame(StartPage)).pack(side="top", fill="x", padx=20, pady= (5, 10))
 
     def formData(self):
         data = self.dat.get() + " "  + self.sn.get() + " " + self.bn.get() + " " + self.sub.get() + " " + self.v.get() + " " + self.com.get() + " Not-Approved"
@@ -1217,10 +1442,10 @@ class EditRecentPage(tk.Frame):
 
 class Test():
     def testAddEntry(self):
-        #e = ['5/24/20', 'Iso-D-NHom' , 'LBF-052420-001:Iso', 'Rico P.', 'In-House', 'Potency', 'Wendy']
-        #d = ['5/15/20', 'Wax-D-NHom' , 'LBF-051520-001:Wax', 'Shawn F.', 'In-House', 'Potency', 'Wendy']
-        #f = ['5/25/20', 'Oleo-D-Wx-NHom' , 'LBF-052520-001:Oleo', 'Robbie K.', 'In-House', 'Potency', 'Derek']
-        #g = ['5/25/20', 'Oleo-D-DeWx-NHom' , 'LBF-052520-002:Oleo', 'Rico P.', 'In-House', 'Potency', 'Derek']
+        #e = ['5/24/20', 'Iso-D-NHom' , 'LBF-052420-001:Iso', 'Rico', 'In-House', 'Potency', 'Wendy']
+        #d = ['5/15/20', 'Wax-D-NHom' , 'LBF-051520-001:Wax', 'Shawn', 'In-House', 'Potency', 'Wendy']
+        #f = ['5/25/20', 'Oleo-D-Wx-NHom' , 'LBF-052520-001:Oleo', 'Robbie', 'In-House', 'Potency', 'Derek']
+        #g = ['5/25/20', 'Oleo-D-DeWx-NHom' , 'LBF-052520-002:Oleo', 'Rico', 'In-House', 'Potency', 'Derek']
         
         e = '5/24/20' + ' ' + 'Iso-D-NHom' + ' ' + 'LBF-052420-001:Iso' + ' ' + 'Rico' + ' ' + 'In-House' + ' ' + 'Potency' + ' Not-Approved'
         d = '5/15/20' + ' ' + 'Wax-D-NHom' + ' ' + 'LBF-051520-001:Wax' + ' ' + 'Shawn' + ' ' + 'In-House' + ' ' + 'Potency' + ' Not-Approved'
@@ -1247,9 +1472,6 @@ class Test():
 
     def testEditEntries(self):
         editByRowOption(1)
-
-    def testApproveStatus(self):
-        pass
 
 ####################################
 
