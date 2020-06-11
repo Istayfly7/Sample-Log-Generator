@@ -10,13 +10,15 @@ import math
 from functools import partial
 from cryptography.fernet import Fernet
 from time import ctime
-#################make new colum and colum names and account for it in everything
+
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/Rico-Porter/workspace/Generators/Sample-Log-Generator/credentials.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('Where/Ever/Your/FileIs/credentials.json', scope)
 client = gspread.authorize(creds)
 spreadsheet = client.open('Sample Log')
 
-key = b'XpbrUB0m95M25QR0seg4hkj5eM8nSY7yTqYTqjWQ6NU='
+#MUST CREATE YOUR OWN KEY FROM ENCRYPTION
+#Example key below (Not Usable, just for looks)
+#key = b'Xpbrsdfijgosifg8sadfgsaf7yTqYTqjWQ6NU='
 
 def makeNewSheet():
     time = ctime()
@@ -728,7 +730,8 @@ class AppSignInPage(tk.Frame):
                         #just so admin doesn't have to keep changing passwords - change the name and email to current admin
                         #add admin encrytped username and email to username_emails.txt and passwords using key
                         #format Username_Emails.txt = user email , Passwords.txt = email password
-                        if(pline[1] == 'password' and username != 'rico' and username != 'rico@sonexlabs.us'):
+
+                        if(password == 'password')# and username != 'AdminUsernameHere' and username != 'AdminEmailHere'):
                             flag = False
                             _master.switch_frame(ChangeDefaultPassword)
                             uf.close()
@@ -1476,14 +1479,6 @@ class Test():
 ####################################
 
 if __name__ == '__main__':
-    ############    FINISHING TOUCHES  -- After downloading on chromebook#######################
-    #make samplelogger.py only excuteable to others and rwx for me
-    #make username_Emails.txt, and passwords.txt only readable
-    #notapproved.txt, read and write
-
-    '''user email
-    email password'''
-
     app = Application()
     app.wm_title('The Sample Logger')
     app.mainloop()
